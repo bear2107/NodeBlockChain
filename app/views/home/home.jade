@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')     
+    meta(http-equiv='X-UA-Compatible', content='chrome=1')
+    meta(name='description', content='HTML5 QR code Reader : A cross platform HTML5 QR code reader.')
+    title QR CODE SCANNER
+    script(src="javascripts/jquery-1.9.1.min.js")
+    script(src="javascripts/html5-qrcode.min.js")
+    script(src="javascripts/jsqrcode-combined.min.js")
+    script(src="javascripts/main.js")
+  body
+    #reader.center(style='width:300px;height:250px;')
+  h6.center Result
+    span#read.center
+    br
+    h6.center Read Error (Debug only)
+    span.center Will constantly show a message, can be ignored
+    span#read_error.center
+    br
+    h6.center Video Error
+    span#vid_error.center
+    br
+    br
+    br

@@ -1,0 +1,61 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    |     
+    meta(http-equiv='X-UA-Compatible', content='chrome=1')
+    |     
+    meta(name='description', content='HTML5 QR code Reader : A cross platform HTML5 QR code reader.')
+    |     
+    link(rel='stylesheet', type='text/css', media='screen', href='stylesheets/stylesheet.css')
+    |     
+    |     
+    script(src='javascripts/jquery-1.9.1.min.js')
+    |     
+    script(src='javascripts/html5-qrcode.min.js')
+    |     
+    script(src='javascripts/main.js')
+    |     
+    title HTML5 QR code Reader
+  |   
+  body
+    // HEADER
+    #header_wrap.outer
+      header.inner
+        a#forkme_banner(href='https://github.com/dwa012/html5-qrcode') View on GitHub
+        |           
+        h1#project_title HTML5 QR code Reader
+        |           
+        h2#project_tagline A cross platform HTML5 QR code reader.
+        |             
+        section#downloads
+          a.zip_download_link(href='https://github.com/dwa012/html5-qrcode/zipball/master') Download this project as a .zip file
+          |               
+          a.tar_download_link(href='https://github.com/dwa012/html5-qrcode/tarball/master') Download this project as a tar.gz file
+    // MAIN CONTENT
+    #main_content_wrap.outer
+      section#main_content.inner.center
+        h3.center QR code Reader Demo
+        #reader.center(style='width:300px;height:250px;')
+        h6.center Result
+        span#read.center
+        br
+        h6.center Read Error (Debug only)
+        span.center Will constantly show a message, can be ignored
+        span#read_error.center
+        br
+        h6.center Video Error
+        span#vid_error.center
+        br
+        br
+        br
+    // FOOTER
+    #footer_wrap.outer
+      footer.inner
+        p.copyright
+          | HTML5 QR code Reader maintained by 
+          a(href='https://github.com/dwa012') dwa012
+        |         
+        p
+          | Published with 
+          a(href='http://pages.github.com') GitHub Pages
