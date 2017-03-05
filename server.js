@@ -63,7 +63,7 @@ process.on('exit', function () {
 
 // Set the chaincode deployment mode to "network", i.e. chaincode runs inside
 // a Docker container
-chain.setDevMode(true);
+chain.setDevMode(false);
 
 //
 // Declare variables that will be used across multiple operations
@@ -166,7 +166,7 @@ function deployChaincode() {
 	// Construct the deploy request
 	var deployRequest = {
 		// Path (under $GOPATH/src) required for deploy in network mode
-		chaincodePath: "https://www.github.com/Arnav25/learnchaincode/sample" ,
+		chaincodePath: "crowd_fund_chaincode" ,
 		// Function to trigger
 		
 		fcn: "init",
@@ -197,6 +197,83 @@ app.use(function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	next();
+});
+app.use(bodyParser.json());
+
+//
+// Add route for a chaincode query request for a specific state variable
+//
+app.get("/state/:var", function(req, res) {
+	// State variable to retrieve
+	var stateVar = req.params.var;
+
+	// Construct the query request
+	var queryRequest = {
+		// Name (hash) required for query
+		chaincodeID: chaincodeID,
+		// Function to trigger
+		fcn: "query",
+		// State variable to retrieve
+		args: [stateVar]
+	};
+
+	// Trigger the query transaction
+	var queryTx = app_user.query(queryRequest);
+
+	// Query completed successfully
+	queryTx.on('complete', function (results) {
+		console.log(util.format("Successfully queried existing chaincode state: " +
+		"request=%j, response=%j, value=%s", queryRequest, results, results.result.toString()));
+
+		res.status(200).json({ "value": results.result.toString() });
+	});
+	// Query failed
+	queryTx.on('error', function (err) {
+		var errorMsg = util.format("ERROR: Failed to query existing chaincode " +
+		"state: request=%j, error=%j", queryRequest, err);
+
+		console.log(errorMsg);
+
+		res.status(500).json({ error: errorMsg });
+	});
+});
+
+//
+// Add route for a chaincode invoke request
+//
+app.post('/transactions', function(req, res) {
+	// Amount to transfer
+	var amount = req.body.read;
+
+	// Construct the invoke request
+	var invokeRequest = {
+		// Name (hash) required for invoke
+		chaincodeID: chaincodeID,
+		// Function to trigger
+		fcn: "invoke",
+		// Parameters for the invoke function
+		args: ["account", amount]
+	};
+
+	// Trigger the invoke transaction
+	var invokeTx = app_user.invoke(invokeRequest);
+
+	// Invoke transaction submitted successfully
+	invokeTx.on('submitted', function (results) {
+		console.log(util.format("Successfully submitted chaincode invoke " +
+		"transaction: request=%j, response=%j", invokeRequest, results));
+
+		res.status(200).json({ status: "submitted" });
+	});
+	// Invoke transaction submission failed
+	invokeTx.on('error', function (err) {
+		var errorMsg = util.format("ERROR: Failed to submit chaincode invoke " +
+		"transaction: request=%j, error=%j", invokeRequest, err);
+
+		console.log(errorMsg);
+
+		res.status(500).json({ error: errorMsg });
+	});
 });
 
 App.start()
