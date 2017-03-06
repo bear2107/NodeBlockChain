@@ -4,6 +4,11 @@ var util = require('util');
 var bodyParser = require('body-parser')
 var express = require('express');
 var app = express();
+App.app.use(bodyParser.urlencoded({ extended: false }));
+App.app.use(bodyParser.json());
+App.app.use(bodyParser.text());
+App.app.use(bodyParser.raw());
+App.app.use(static(App.appPath('public')))
 var DOCKER_HOST_IP ='139.59.41.150';
 if (DOCKER_HOST_IP == null || DOCKER_HOST_IP == "") {
 	console.log("ERROR: No Docker Host IP specified! Exiting.");
@@ -198,12 +203,12 @@ app.use(function(req, res, next) {
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	next();
 });
-app.use(bodyParser.json());
+
 
 //
 // Add route for a chaincode query request for a specific state variable
 //
-app.get("/state/:var", function(req, res) {
+App.app.get("/state/:var", function(req, res) {
 	// State variable to retrieve
 	var stateVar = req.params.var;
 
@@ -241,7 +246,7 @@ app.get("/state/:var", function(req, res) {
 //
 // Add route for a chaincode invoke request
 //
-app.post('/transactions', function(req, res) {
+App.app.post('/transactions', function(req, res) {
 	// Amount to transfer
 	var amount = req.body.read;
 
