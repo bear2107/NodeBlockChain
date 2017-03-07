@@ -12,14 +12,14 @@ $(document).ready(function(){
 			$.ajax({
 				    type: "post",
 				    url: '/transactions',
-					data: { amount: data},
+					data: { "amount": data},
 				    datatype: "json",
 				    success: function(result) {
 				       console.log("Status: " + result.status);
 				    }
 				});
 
-		//	window.location='/ass'
+			window.location='google.com'
 			//console.log(x+"hgf");
 		},
 

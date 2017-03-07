@@ -8,7 +8,7 @@ App.app.use(bodyParser.urlencoded({ extended: false }));
 App.app.use(bodyParser.json());
 App.app.use(bodyParser.text());
 App.app.use(bodyParser.raw());
-App.app.use(static(App.appPath('public')))
+
 var DOCKER_HOST_IP ='139.59.41.150';
 if (DOCKER_HOST_IP == null || DOCKER_HOST_IP == "") {
 	console.log("ERROR: No Docker Host IP specified! Exiting.");
@@ -248,8 +248,8 @@ App.app.get("/state/:var", function(req, res) {
 //
 App.app.post('/transactions', function(req, res) {
 	// Amount to transfer
-	var amount = req.body.read;
-
+	var amount = req.body.amount.toString();
+	console.log("amount"+amount);
 	// Construct the invoke request
 	var invokeRequest = {
 		// Name (hash) required for invoke
