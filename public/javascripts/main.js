@@ -19,7 +19,7 @@ $(document).ready(function(){
 				    }
 				});
 
-			window.location='google.com'
+			window.location='/last'
 			//console.log(x+"hgf");
 		},
 
